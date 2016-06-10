@@ -4,7 +4,6 @@ require 'cgi'
 require 'dotenv'
 require 'json'
 require 'mail'
-require 'net/smtp'
 require 'open-uri'
 
 API_URL = 'https://maps.googleapis.com/maps/api/distancematrix/json'
