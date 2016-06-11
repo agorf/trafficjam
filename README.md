@@ -32,13 +32,14 @@ before heading out each morning).
 The following environmental variables should be defined (all required unless
 otherwise stated):
 
-* `API_KEY` - Google Maps API key
+* `ORIGINS` &ndash; Your home address
+* `DESTINATIONS` &ndash; Your work address
+* `KEY` &ndash; Your Google Maps API key
+* `MODE` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#travel_modes)
+* `AVOID` (optional) - See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#Restrictions)
+* `TRAFFIC_MODEL` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#traffic-model)
 * `MAX_DURATION_MINUTES` - If the estimated duration of your commute exceeds
   this value in minutes, you will get notified
-* `ORIGIN` - Your home address
-* `DESTINATION` - Your work address
-* `AVOID` (optional) - Directs the Google Maps API to avoid `tolls`, `highways`,
-  `ferries` or `indoor` steps
 * `SMTP_HOST` - SMTP server hostname
 * `SMTP_PORT` - SMTP server port
 * `SMTP_USER` - SMTP server username
