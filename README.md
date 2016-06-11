@@ -36,15 +36,15 @@ otherwise stated):
 * `DESTINATIONS` &ndash; Your work address
 * `KEY` &ndash; Your Google Maps API key
 * `MODE` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#travel_modes)
-* `AVOID` (optional) - See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#Restrictions)
+* `AVOID` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#Restrictions)
 * `TRAFFIC_MODEL` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#traffic-model)
-* `MAX_DURATION_MINUTES` - If the estimated duration of your commute exceeds
+* `MAX_DURATION_MINUTES` &ndash; If the estimated duration of your commute exceeds
   this value in minutes, you will get notified
-* `SMTP_HOST` - SMTP server hostname
-* `SMTP_PORT` - SMTP server port
-* `SMTP_USER` - SMTP server username
-* `SMTP_PASS` - SMTP server password
-* `RECIPIENT` - Email address to get notified at
+* `SMTP_HOST` &ndash; SMTP server hostname
+* `SMTP_PORT` &ndash; SMTP server port
+* `SMTP_USER` &ndash; SMTP server username
+* `SMTP_PASS` &ndash; SMTP server password
+* `RECIPIENT` &ndash; Email address to get notified at
 
 ## License
 
