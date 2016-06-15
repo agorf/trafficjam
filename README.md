@@ -1,7 +1,7 @@
 # trafficjam
 
-A Ruby script that uses the excellent [Google Maps API][] to determine whether
-your daily commute has unusual traffic and emails you if it does.
+A Ruby script that uses the [Google Maps API][] to notify you if your daily
+commute has unusual traffic.
 
 [Google Maps API]: https://developers.google.com/maps/
 
@@ -13,13 +13,19 @@ First, you need a free [Google Maps API key][] and access to an SMTP server.
 [Google Maps API key]: https://developers.google.com/maps/documentation/javascript/get-api-key#key
 [Mailgun]: https://www.mailgun.com/
 
-Then, issue:
+Then, issue once:
 
     $ git clone https://github.com/agorf/trafficjam.git
     $ cd trafficjam
     $ bundle install
     $ cp .env.sample .env
+
+Configure the script with your `$EDITOR`:
+
     $ $EDITOR .env
+
+Run the script:
+
     $ bundle exec ruby trafficjam.rb
 
 You can use [Cron][] to run the script at predetermined intervals (e.g. right
