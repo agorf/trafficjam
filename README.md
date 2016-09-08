@@ -35,7 +35,7 @@ before heading out each morning).
 
 ## Configuration
 
-The following environmental variables should be defined (all required unless
+The following environment variables should be defined (all required unless
 otherwise stated):
 
 * `ORIGINS` &ndash; Your home address
