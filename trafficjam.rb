@@ -18,7 +18,7 @@ Mail.defaults do
     password:  ENV.fetch('SMTP_PASS')
 end
 
-def send_email(subject:, body: '')
+def send_email(subject, body = '')
   Mail.deliver do
     to      ENV.fetch('RECIPIENT')
     from    ENV.fetch('RECIPIENT')
@@ -47,11 +47,11 @@ begin
   resp = JSON.parse(open(url).read)
   duration = resp['rows'][0]['elements'][0]['duration_in_traffic']['value']
 rescue => e
-  send_email(subject: e.message, body: e.backtrace.join("\n"))
+  send_email(e.message, e.backtrace.join("\n"))
 end
 
 duration_in_minutes = (duration / 60.0).ceil
 
 if duration_in_minutes > ENV.fetch('MAX_DURATION_MINUTES').to_f
-  send_email(subject: "#{duration_in_minutes} minutes")
+  send_email("#{duration_in_minutes} minutes")
 end
