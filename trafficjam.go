@@ -51,6 +51,10 @@ func main() {
 	log.SetPrefix(name + ": ")
 	log.SetFlags(0)
 
+	if len(os.Args) != 2 {
+		log.Fatalf("usage: %s config.json", name)
+	}
+
 	conf, err := readConfig(os.Args[1])
 	if err != nil {
 		log.Fatal(err)
