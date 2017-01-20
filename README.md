@@ -1,9 +1,9 @@
 # trafficjam
 
-Queries the [Google Maps API][] and notifies you if a trip has unusual traffic.
-Useful for knowing about traffic in your daily commute before getting stuck.
+Sends email if a route travel time exceeds a configured limit according to the
+[Google Maps API][].
 
-[Google Maps API]: https://developers.google.com/maps/
+[Google Maps API]: https://developers.google.com/maps/documentation/distance-matrix/
 
 This [used to be written in Ruby][rewrite-commit].
 
