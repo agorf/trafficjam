@@ -126,7 +126,6 @@ func queryMapsAPI(params map[string]string) (*apiResponse, error) {
 	if err := json.Unmarshal(body, &apiResp); err != nil {
 		return nil, err
 	}
-
 	if apiResp.Status != "OK" {
 		return nil, fmt.Errorf("%s: bad response status: %s\n", name, apiResp.Status)
 	}
