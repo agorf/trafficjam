@@ -5,6 +5,10 @@ Useful for knowing about traffic in your daily commute before getting stuck.
 
 [Google Maps API]: https://developers.google.com/maps/
 
+This [used to be written in Ruby][rewrite-commit].
+
+[rewrite-commit]: https://github.com/agorf/trafficjam/commit/e8434f742b6dec8e1644a533f769540aeebcedb2
+
 ## Quick how-to
 
 First, you need a free [Google Maps API key][] and access to an SMTP server.
