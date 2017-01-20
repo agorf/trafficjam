@@ -1,0 +1,16 @@
+{
+  "origins": "",
+  "destinations": "",
+  "api_key": "",
+  "mode": "",
+  "avoid": "",
+  "traffic_model": "",
+  "max_duration": 0,
+  "smtp": {
+    "host": "",
+    "port": 587,
+    "user": "",
+    "pass": ""
+  },
+  "recipient": ""
+}

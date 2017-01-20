@@ -1,56 +1,65 @@
 # trafficjam
 
-A Ruby script that uses the [Google Maps API][] to notify you if your daily
-commute has unusual traffic.
+Queries the [Google Maps API][] and notifies you if a trip has unusual traffic.
+Useful for knowing about traffic in your daily commute before getting stuck.
 
 [Google Maps API]: https://developers.google.com/maps/
 
 ## Quick how-to
 
 First, you need a free [Google Maps API key][] and access to an SMTP server.
-[Mailgun][] has free plans.
+[Mailgun][] has a free plan.
 
 [Google Maps API key]: https://developers.google.com/maps/documentation/javascript/get-api-key#key
 [Mailgun]: https://www.mailgun.com/
 
-Then, issue once:
+Then install [Go](https://golang.org/), if you haven't, and issue once:
 
     $ git clone https://github.com/agorf/trafficjam.git
     $ cd trafficjam
-    $ bundle install
-    $ cp .env.sample .env
+    $ go build trafficjam.go
+    $ cp config.json.sample config.json
 
-Configure the script with your `$EDITOR`:
+Configure the program with your `$EDITOR`:
 
-    $ $EDITOR .env
+    $ $EDITOR config.json
 
-Run the script:
+Run the program:
 
-    $ bundle exec ruby trafficjam.rb
+    $ ./trafficjam config.json
 
 You can use [Cron][] to run the script at predetermined intervals (e.g. right
-before heading out each morning).
+before heading out each morning). Here's what I have:
+
+    0,5,10,15,20,25,30 9 * * 1-5 agorf ./trafficjam config.json
+
+This runs the program on working days, from 9:00 until 9:30, every five minutes.
+
+To avoid getting spammed, you need to figure out the right threshold
+(`max_duration` config option) that you want to get notified for.
 
 [Cron]: https://en.wikipedia.org/wiki/Cron
 
 ## Configuration
 
-The following environment variables should be defined (all required unless
-otherwise stated):
+The configuration file is a plain JSON file. The following keys can be defined
+(all required unless otherwise stated):
 
-* `ORIGINS` &ndash; Your home address
-* `DESTINATIONS` &ndash; Your work address
-* `KEY` &ndash; Your Google Maps API key
-* `MODE` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#travel_modes)
-* `AVOID` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#Restrictions)
-* `TRAFFIC_MODEL` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#traffic-model)
-* `MAX_DURATION_MINUTES` &ndash; If the estimated duration of your commute exceeds
+* `origins` &ndash; Your home address
+* `destinations` &ndash; Your work address
+* `api_key` &ndash; Your Google Maps API key
+* `mode` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#travel_modes)
+* `avoid` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#Restrictions)
+* `traffic_model` (optional) &ndash; See [here](https://developers.google.com/maps/documentation/distance-matrix/intro#traffic-model)
+* `max_duration` (minutes) &ndash; If the estimated duration of your commute exceeds
   this value in minutes, you will get notified
-* `SMTP_HOST` &ndash; SMTP server hostname
-* `SMTP_PORT` &ndash; SMTP server port
-* `SMTP_USER` &ndash; SMTP server username
-* `SMTP_PASS` &ndash; SMTP server password
-* `RECIPIENT` &ndash; Email address to get notified at
+* `host` (under `smtp`) &ndash; SMTP server hostname
+* `port` (under `smtp`) &ndash; SMTP server port
+* `user` (under `smtp`) &ndash; SMTP server username
+* `pass` (under `smtp`) &ndash; SMTP server password
+* `recipient` &ndash; Email address to get notified at
+
+See `config.json.sample` for a sample configuration file.
 
 ## License
 
