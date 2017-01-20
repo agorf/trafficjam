@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/smtp"
 	"net/url"
@@ -47,10 +48,12 @@ type apiResponse struct {
 }
 
 func main() {
+	log.SetPrefix(name + ": ")
+	log.SetFlags(0)
+
 	conf, err := readConfig(os.Args[1])
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s: %v\n", name, err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
 	params := map[string]string{
@@ -65,8 +68,7 @@ func main() {
 
 	apiResp, err := queryMapsAPI(params)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s: %v\n", name, err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 
 	duration := apiResp.Rows[0].Elements[0].DurationInTraffic.Value
