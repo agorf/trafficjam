@@ -69,14 +69,12 @@ func main() {
 		"departure_time": "now",
 		"traffic_model":  conf.TrafficModel,
 	}
-
 	apiResp, err := queryMapsAPI(params)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	duration := apiResp.Rows[0].Elements[0].DurationInTraffic.Value
-
 	if duration > conf.MaxDuration*60 {
 		sendMail(conf, apiResp.Rows[0].Elements[0].DurationInTraffic.Text)
 	}
