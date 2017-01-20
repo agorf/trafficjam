@@ -76,7 +76,9 @@ func main() {
 
 	duration := apiResp.Rows[0].Elements[0].DurationInTraffic.Value
 	if duration > conf.MaxDuration*60 {
-		sendMail(conf, apiResp.Rows[0].Elements[0].DurationInTraffic.Text)
+		if err := sendMail(conf, apiResp.Rows[0].Elements[0].DurationInTraffic.Text); err != nil {
+			log.Fatal(err)
+		}
 	}
 }
 
