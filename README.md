@@ -19,13 +19,13 @@ First, you need a free [Google Maps API key][] and access to an SMTP server.
 
 Then install [Go](https://golang.org/), if you haven't, and issue once:
 
-    $ git clone https://github.com/agorf/trafficjam.git
-    $ cd trafficjam
-    $ go build trafficjam.go
+    $ go get github.com/agorf/trafficjam
 
 Alternatively, you can issue:
 
-    $ go get github.com/agorf/trafficjam
+    $ git clone https://github.com/agorf/trafficjam.git
+    $ cd trafficjam
+    $ go build trafficjam.go
 
 Configure the program with your `$EDITOR`:
 
@@ -34,16 +34,16 @@ Configure the program with your `$EDITOR`:
 
 Run the program:
 
-    $ ./trafficjam config.json
-
-Or if you used `go get`:
-
     $ trafficjam config.json
+
+Or if you cloned the repo and compiled:
+
+    $ ./trafficjam config.json
 
 You can use [Cron][] to run the script at predetermined intervals (e.g. right
 before heading out each morning). Here's what I have:
 
-    0,5,10,15,20,25,30 9 * * 1-5 agorf ./trafficjam config.json
+    0,5,10,15,20,25,30 9 * * 1-5 agorf trafficjam config.json
 
 This runs the program on working days, from 9:00 until 9:30, every five minutes.
 
@@ -54,8 +54,8 @@ To avoid getting spammed, you need to figure out the right threshold
 
 ## Configuration
 
-The configuration file is a plain JSON file. The following keys can be defined
-(all required unless otherwise stated):
+The configuration file contains JSON. The following keys can be defined (all
+required unless otherwise stated):
 
 * `origins` &ndash; Your home address
 * `destinations` &ndash; Your work address
