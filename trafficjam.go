@@ -129,7 +129,7 @@ func queryMapsAPI(params map[string]string) (*apiResponse, error) {
 		return nil, fmt.Errorf("%s: response first row element count is not 1\n", name)
 	}
 	if apiResp.Rows[0].Elements[0].Status != "OK" {
-		return nil, fmt.Errorf("%s: bad response row element status: %s\n", name, apiResp.Rows[0].Elements[0].Status)
+		return nil, fmt.Errorf("%s: bad response first row first element status: %s\n", name, apiResp.Rows[0].Elements[0].Status)
 	}
 
 	return &apiResp, nil
