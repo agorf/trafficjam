@@ -22,15 +22,23 @@ Then install [Go](https://golang.org/), if you haven't, and issue once:
     $ git clone https://github.com/agorf/trafficjam.git
     $ cd trafficjam
     $ go build trafficjam.go
-    $ cp config.json.sample config.json
+
+Alternatively, you can issue:
+
+    $ go get github.com/agorf/trafficjam
 
 Configure the program with your `$EDITOR`:
 
+    $ cp config.json.sample config.json
     $ $EDITOR config.json
 
 Run the program:
 
     $ ./trafficjam config.json
+
+Or if you used `go get`:
+
+    $ trafficjam config.json
 
 You can use [Cron][] to run the script at predetermined intervals (e.g. right
 before heading out each morning). Here's what I have:
