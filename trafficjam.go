@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -99,17 +98,20 @@ func readConfig(filename string) (*config, error) {
 }
 
 func queryMapsAPI(params map[string]string) (*apiResponse, error) {
-	urlBuf := bytes.NewBufferString(apiURL)
-	urlBuf.WriteByte('?')
-
+	query := url.Values{}
 	for key, val := range params {
-		urlBuf.WriteString(url.QueryEscape(key))
-		urlBuf.WriteByte('=')
-		urlBuf.WriteString(url.QueryEscape(val))
-		urlBuf.WriteByte('&')
+		if val != "" {
+			query.Set(key, val)
+		}
 	}
 
-	resp, err := http.Get(urlBuf.String())
+	uri, err := url.Parse(apiURL)
+	if err != nil {
+		return nil, err
+	}
+	uri.RawQuery = query.Encode()
+
+	resp, err := http.Get(uri.String())
 	if err != nil {
 		return nil, err
 	}
