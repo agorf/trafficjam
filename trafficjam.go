@@ -38,7 +38,8 @@ type apiResponse struct {
 	Rows []struct {
 		Elements []struct {
 			DurationInTraffic struct {
-				Value int `json:"value"`
+				Text  string `json:"text"`
+				Value int    `json:"value"`
 			} `json:"duration_in_traffic"`
 			Status string `json:"status"`
 		} `json:"elements"`
@@ -75,10 +76,9 @@ func main() {
 	}
 
 	duration := apiResp.Rows[0].Elements[0].DurationInTraffic.Value
-	durationMins := int(float64(duration)/60.0 + 0.5) // round
 
-	if durationMins > conf.MaxDuration {
-		sendMail(conf, fmt.Sprintf("%d minutes", durationMins))
+	if duration > conf.MaxDuration*60 {
+		sendMail(conf, apiResp.Rows[0].Elements[0].DurationInTraffic.Text)
 	}
 }
 
