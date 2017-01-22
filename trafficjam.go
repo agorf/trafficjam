@@ -18,33 +18,33 @@ const (
 )
 
 type config struct {
-	Origins      string `json:"origins"`
-	Destinations string `json:"destinations"`
-	APIKey       string `json:"api_key"`
-	Mode         string `json:"mode"`
-	Avoid        string `json:"avoid"`
-	TrafficModel string `json:"traffic_model"`
-	MaxDuration  int    `json:"max_duration"`
-	SMTP         struct {
-		Host string `json:"host"`
-		Port int    `json:"port"`
-		User string `json:"user"`
-		Pass string `json:"pass"`
+	origins      string `json:"origins"`
+	destinations string `json:"destinations"`
+	apiKey       string `json:"api_key"`
+	mode         string `json:"mode"`
+	avoid        string `json:"avoid"`
+	trafficModel string `json:"traffic_model"`
+	maxDuration  int    `json:"max_duration"`
+	smtp         struct {
+		host string `json:"host"`
+		port int    `json:"port"`
+		user string `json:"user"`
+		pass string `json:"pass"`
 	} `json:"smtp"`
-	Recipient string `json:"recipient"`
+	recipient string `json:"recipient"`
 }
 
 type apiResponse struct {
-	Rows []struct {
-		Elements []struct {
-			DurationInTraffic struct {
-				Text  string `json:"text"`
-				Value int    `json:"value"`
+	rows []struct {
+		elements []struct {
+			durationInTraffic struct {
+				text  string `json:"text"`
+				value int    `json:"value"`
 			} `json:"duration_in_traffic"`
-			Status string `json:"status"`
+			status string `json:"status"`
 		} `json:"elements"`
 	} `json:"rows"`
-	Status string `json:"status"`
+	status string `json:"status"`
 }
 
 func main() {
@@ -61,22 +61,22 @@ func main() {
 	}
 
 	params := map[string]string{
-		"origins":        conf.Origins,
-		"destinations":   conf.Destinations,
-		"key":            conf.APIKey,
-		"mode":           conf.Mode,
-		"avoid":          conf.Avoid,
+		"origins":        conf.origins,
+		"destinations":   conf.destinations,
+		"key":            conf.apiKey,
+		"mode":           conf.mode,
+		"avoid":          conf.avoid,
 		"departure_time": "now",
-		"traffic_model":  conf.TrafficModel,
+		"traffic_model":  conf.trafficModel,
 	}
 	apiResp, err := queryMapsAPI(params)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	duration := apiResp.Rows[0].Elements[0].DurationInTraffic.Value
-	if duration > conf.MaxDuration*60 {
-		if err := sendMail(conf, apiResp.Rows[0].Elements[0].DurationInTraffic.Text); err != nil {
+	duration := apiResp.rows[0].elements[0].durationInTraffic.value
+	if duration > conf.maxDuration*60 {
+		if err := sendMail(conf, apiResp.rows[0].elements[0].durationInTraffic.text); err != nil {
 			log.Fatal(err)
 		}
 	}
@@ -126,17 +126,17 @@ func queryMapsAPI(params map[string]string) (*apiResponse, error) {
 	if err := json.Unmarshal(body, &apiResp); err != nil {
 		return nil, err
 	}
-	if apiResp.Status != "OK" {
-		return nil, fmt.Errorf("%s: bad response status: %s\n", name, apiResp.Status)
+	if apiResp.status != "OK" {
+		return nil, fmt.Errorf("%s: bad response status: %s\n", name, apiResp.status)
 	}
-	if len(apiResp.Rows) != 1 {
+	if len(apiResp.rows) != 1 {
 		return nil, fmt.Errorf("%s: response row count is not 1\n", name)
 	}
-	if len(apiResp.Rows[0].Elements) != 1 {
+	if len(apiResp.rows[0].elements) != 1 {
 		return nil, fmt.Errorf("%s: response first row element count is not 1\n", name)
 	}
-	if apiResp.Rows[0].Elements[0].Status != "OK" {
-		return nil, fmt.Errorf("%s: bad response first row first element status: %s\n", name, apiResp.Rows[0].Elements[0].Status)
+	if apiResp.rows[0].elements[0].status != "OK" {
+		return nil, fmt.Errorf("%s: bad response first row first element status: %s\n", name, apiResp.rows[0].elements[0].status)
 	}
 
 	return &apiResp, nil
@@ -153,13 +153,13 @@ func sendMail(conf *config, body string) error {
 		return err
 	}
 
-	auth := smtp.PlainAuth("", conf.SMTP.User, conf.SMTP.Pass, conf.SMTP.Host)
+	auth := smtp.PlainAuth("", conf.smtp.user, conf.smtp.pass, conf.smtp.host)
 	sender := user.Username + "@" + hostname
-	to := []string{conf.Recipient}
-	msg := []byte("To: " + conf.Recipient + "\r\n" +
+	to := []string{conf.recipient}
+	msg := []byte("To: " + conf.recipient + "\r\n" +
 		"Subject: " + name + " alert\r\n" +
 		"\r\n" +
 		body + "\r\n")
 
-	return smtp.SendMail(fmt.Sprintf("%s:%d", conf.SMTP.Host, conf.SMTP.Port), auth, sender, to, msg)
+	return smtp.SendMail(fmt.Sprintf("%s:%d", conf.smtp.host, conf.smtp.port), auth, sender, to, msg)
 }
