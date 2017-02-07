@@ -48,12 +48,13 @@ type apiResponse struct {
 }
 
 func main() {
+	if len(os.Args) != 2 {
+		fmt.Fprintf(os.Stderr, "usage: %s <config>\n", name)
+		os.Exit(1)
+	}
+
 	log.SetPrefix(name + ": ")
 	log.SetFlags(0)
-
-	if len(os.Args) != 2 {
-		log.Fatalf("usage: %s config.json", name)
-	}
 
 	conf, err := readConfig(os.Args[1])
 	if err != nil {
