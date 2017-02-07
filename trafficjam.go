@@ -128,16 +128,16 @@ func queryMapsAPI(params map[string]string) (*apiResponse, error) {
 		return nil, err
 	}
 	if apiResp.Status != "OK" {
-		return nil, fmt.Errorf("%s: bad response status: %s\n", name, apiResp.Status)
+		return nil, fmt.Errorf("bad response status: %s", apiResp.Status)
 	}
 	if len(apiResp.Rows) != 1 {
-		return nil, fmt.Errorf("%s: response row count is not 1\n", name)
+		return nil, fmt.Errorf("response row count is not 1")
 	}
 	if len(apiResp.Rows[0].Elements) != 1 {
-		return nil, fmt.Errorf("%s: response first row element count is not 1\n", name)
+		return nil, fmt.Errorf("response first row element count is not 1")
 	}
 	if apiResp.Rows[0].Elements[0].Status != "OK" {
-		return nil, fmt.Errorf("%s: bad response first row first element status: %s\n", name, apiResp.Rows[0].Elements[0].Status)
+		return nil, fmt.Errorf("bad response first row first element status: %s", apiResp.Rows[0].Elements[0].Status)
 	}
 
 	return &apiResp, nil
